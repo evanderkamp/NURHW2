@@ -12,7 +12,7 @@ The code I wrote is:
 
 For a) we have that x = $r/r_vir$, so integrating over spherical coordinates gives dx = $dr/r_vir$, 
 and n(x) doesnt depend on theta or phi so the 3D integral is simply $4\pi$ times the integral over 
-r^2*dr (or $r_vir^3*x^2*dx$)
+$r^2$*dr (or $r_vir^3*x^2*dx$)
 To solve for A we can rewrite the integral to get $(4\pi/(A*N_sat))*\int n(x)*x^2 dx = 1/(A*r_vir^3)$
 Because Romberg integration gives the most accurate result, I used Romberg integration with 50 steps 
 (so a step size of 5/50) and an order of 6 to get 1/A (taking the $r_vir$ into the constant A),

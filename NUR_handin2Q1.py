@@ -70,7 +70,11 @@ print("And A*r_vir^3", A_intgr)
 
 np.savetxt("NUR2Q1Asol.txt", [A_intgr])
 
+
+
 #b
+
+
 #N(x)dx is 4*pi*n(x)*x^2 dx, because integrating that divided by Nsat gives 1, so integrating p(x)dx also gives 1, which is what we want
 
 def N(x,A=A_intgr,a=2.4,b=0.25,c=1.6):
@@ -110,7 +114,7 @@ def RejectSamp(prob, a, b, N):
 	maxprob = np.amax(probs)
 	while i < N:
 		#make sure that the seed changes every time so we get a different number
-		rndnr = LCG64(I0=(2*j+N+12), size=100)
+		rndnr = LCG64(I0=(j+12), size=50)
 		x = a + (b-a)*rndnr[0] #U(a,b)
 		y = maxprob*rndnr[1] #y goes from zero to max(p(x))
 		
@@ -128,7 +132,7 @@ x_sample = RejectSamp(N, a=0, b=5, N=10000)
 
 xes = np.linspace(0,5,1000)
 
-#setting density=True gives a probability density distribution by dividing the bins by their width and ans the total number of counts
+#setting density=True gives a probability density distribution by dividing the bins by their width and the total number of counts
 
 #the bins below 5*10**(-3) are empty because there the probability reaches ~10^(-4) so with 10000 points you expect at most 1 x there
 plt.hist(x_sample, bins=np.logspace(np.log10(10**(-4)),np.log10(5), 20), density=True, rwidth=0.9, label='histogram of sampled x')
@@ -140,7 +144,9 @@ plt.savefig("NUR2Q1plot1.pdf")
 plt.close()
 
 
+
 #c
+
 
 def rowswapvec(M, i, j):
 	"""swap indices i and j of a vector M"""
@@ -279,7 +285,10 @@ plt.savefig("NUR2Q1plot2.pdf")
 plt.close()
 
 
+
 #d
+
+
 def centr_diff(func, x, h):
     """calculates the derivative with the central difference method"""
     return (func(x+h) - func(x-h))/(2*h)
@@ -324,7 +333,7 @@ def dn(x,A=A_intgr,Nsat=100, a=2.4,b=0.25,c=1.6):
 	return Nsat* A*((x)**(a-4)/(b)**(a-3))*np.exp(-(x/b)**c)*(a-3-c*(x/b)**c)
 
 xje = np.ones(1)
-analderiv, Ridderderiv = dn(1), Ridder(n,xje,0.1,2,accur=10**(-8),analder=dn)
+analderiv, Ridderderiv = dn(1), Ridder(n,xje,0.1,2,accur=10**(-10),analder=dn)
 print("Analytical derivative at x=1, and via Ridder's method:", analderiv, Ridderderiv)
 
 np.savetxt("NUR2Q1derivs.txt", [analderiv, Ridderderiv])

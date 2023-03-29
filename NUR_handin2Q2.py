@@ -114,7 +114,7 @@ def Secant(func, a, b, max_iter, accur):
         c = b + func(b)*(b-a)/(func(a) - func(b))
         a,b = b,c
         
-        print(i, "accur =", func(c))
+        print("Step", i+1, "accur =", func(c))
         
         if np.abs(func(c)) < accur:
             return c
@@ -139,6 +139,9 @@ plt.scatter(T_bisequil2_1, equilibrium2(T_bisequil2_1), label='root by bis')
 plt.xlabel("Temperature (K)")
 plt.ylabel("Equilibrium function")
 plt.xscale('log')
+#plt.xlim(T_bisequil2_1-1e3, T_bisequil2_1+1e3)
+#plt.ylim(1e-17, -1e-17)
+plt.legend()
 plt.savefig("NUR2Q2plot2.pdf")
 plt.close()
 
@@ -158,6 +161,9 @@ plt.xscale('log')
 plt.xlabel("Temperature (K)")
 plt.ylabel("Equilibrium function")
 plt.xscale('log')
+plt.xlim(1, T_bisequil2_2+1e3)
+#plt.ylim(1e-17, -1e-17)
+plt.legend()
 plt.savefig("NUR2Q2plot3.pdf")
 plt.close()
 
@@ -179,6 +185,9 @@ plt.xscale('log')
 plt.xlabel("Temperature (K)")
 plt.ylabel("Equilibrium function")
 plt.xscale('log')
+plt.xlim(1, T_bisequil2_3+1e3)
+plt.ylim(1e-17, -1e-17)
+plt.legend()
 plt.savefig("NUR2Q2plot4.pdf")
 plt.close()
 

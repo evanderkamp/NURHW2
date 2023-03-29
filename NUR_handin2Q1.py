@@ -326,7 +326,7 @@ def Ridder(func, x, h, d, accur, analder, m=100):
         
 	#before improving the solution, save r_0 and the accuracy in case the accuracy drops
         accurprev = np.mean(np.abs(r[0,:] - analder(x)))
-	r_0prev = r[0,:].copy()
+        r_0prev = r[0,:].copy()
         
         for j in range(0,m-i):
             r[j,:] = (Np*r[j+1,:] - r[j,:])/(Np-1)

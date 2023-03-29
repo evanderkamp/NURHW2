@@ -259,7 +259,7 @@ def Quicksort(arr, indsave=False):
         
 #I will draw 100 random galaxies by shuffling the sample array and taking the first 100 of the shuffled array
 #shuffle a random array by sorting it and getting the indices
-rand_arr = LCG64(I0=5, size=len(x_sample))
+rand_arr = LCG64(I0=55, size=len(x_sample))
 rand_ind = Quicksort(rand_arr, indsave=True)
 
 rand_sample = x_sample[rand_ind.astype(int)][0:100]

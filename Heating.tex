@@ -14,9 +14,7 @@ For a) I needed to find the root of the function $\Gamma_{pe} - \Lambda_{rr}$ to
 temperature. $\alpha_B, n_h$ and $n_e$ cancel out because they appear in both expressions.
 We want an accuracy of at least 0.1K, but the function is around zero for a long time (I plotted it to see) 
 so we want a high accuracy.
-Secant diverges, so I use Newton-Rhapson with $10^{3.5}$ as initial guess. It took 3 steps to find a temperature 
-with a function value of ~$10^{-19}$. I measured the time it took to find the root and output it together with
-the found T. The output is of the form [T (in K), time taken (in sec)]:
+Secant diverges, so, using the derivative of the equilibrium function, I use Newton-Rhapson with $10^{3.5}$ as initial guess, and up until an accuracy of $10^{-15}$. It took 3 steps to find a temperature with a function value of ~$10^{-19}$. I measured the time it took to find the root and output it together with the found T. The output is of the form [T (in K), time taken (in sec)]:
 \lstinputlisting{NUR2Q2TandttNR.txt}
 
 To make sure I was actually near a root and not just in a sea of small function values, I plotted the 
@@ -28,6 +26,51 @@ The result you can see in Fig. \ref{fig:fig1}.
   \centering
   \includegraphics[width=0.9\linewidth]{NUR2Q2plot1.pdf}
   \caption{Plot corresponding to exercise 2a, showing the equilibrium function, the root found by NR, and
-  a horizontal line at 0.}
+  a horizontal line at 0. In the plot you can see that the root found is within 0.1K.}
   \label{fig:fig1}
+\end{figure} 
+
+
+\section{b}
+
+Here, the equilibrium function is $\Gamma_{pe} \Gamma_{CR} + \Gamma_{MHD} - \Lambda_{FF} - \Lambda_{rr}$, and we have that $n_H = n_e$ so we can divide out one. 
+For the different values of $n_H$ I first look at the equilibrium functions by plotting them and inspecting where the root approximately is. 
+
+For $n_H = 10^{-4}$ the equilibrium function is very steep before it crosses the y = 0 line, and NR diverges, so I use a safe Bisection method between T = [1,$10^{15}$] to find the root to an accuracy of $10^{-17}$. It takes 7 steps to find a T with function value of $10^{-18}$.
+The output Temperature (in K) and time taken (in sec) to find the root are:
+\lstinputlisting{NUR2Q2TandttBis.txt}
+
+Again, I plot to see how close I got to the root, see Fig. \ref{fig:fig2}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{NUR2Q2plot2.pdf}
+  \caption{Plot corresponding to exercise 2b for $n_H = 10^{-4}$, showing the equilibrium function, the root found by bisection, and a horizontal line at 0, zooming in 0.1K around the root. In the plot you can see that the root found is very close to the intersection of the equilibrium function and y=0.}
+  \label{fig:fig2}
+\end{figure} 
+
+
+For $n_H = 1$ and $n_H = 10^4$ the equilibrium function value is almost always negative (smaller than zero), except at the smallest temperature values (T~1 K), so I use the Secant method between T = [1,$10^{15}$] to quickly find the root to an accuracy of $10^{-17}$. 
+For both $n_H$ values it takes 1 step to find a T with function value of $10^{-25}$ and $10^{-21}$ respectively.
+The output Temperatures (in K) and time taken (in sec) to find the roots are:
+\lstinputlisting{NUR2Q2TandttSec.txt}
+for $n_H = 1$ and 
+\lstinputlisting{NUR2Q2TandttSec2.txt}
+for $n_H = 10^4$.
+
+Again, I plot to see how close I got to the root, see Fig. \ref{fig:fig3} and \ref{fig:fig4}.
+
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{NUR2Q2plot3.pdf}
+  \caption{Plot corresponding to exercise 2b for $n_H = 1$, showing the equilibrium function, the root found by bisection, and a horizontal line at 0. In the plot you can see that the root found is very close to the intersection of the equilibrium function and y=0.}
+  \label{fig:fig3}
+\end{figure} 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{NUR2Q2plot4.pdf}
+  \caption{Plot corresponding to exercise 2b for $n_H = 10^4$, showing the equilibrium function, the root found by bisection, and a horizontal line at 0. In the plot you can see that the root found is very close to the intersection of the equilibrium function and y=0.}
+  \label{fig:fig4}
 \end{figure} 

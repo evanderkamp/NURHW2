@@ -1,0 +1,33 @@
+\section{Heating and cooling in HII regions}
+
+Because I could copy all of the functions from the working classes, 
+my code for those is similar to my sister\'s, Liz van der Kamp (s2135752). 
+For this exercise I needed to use different root finding algorithms to find the roots of functions, and I 
+used Newton Rhapson, Bisection, and Secant.
+
+The code I wrote for this is:
+\lstinputlisting{NUR_handin2Q2.py}
+
+\section{a}
+
+For a) I needed to find the root of the function $\Gamma_{pe} - \Lambda_{rr}$ to find the equilibrium 
+temperature. $\alpha_B, n_h$ and $n_e$ cancel out because they appear in both expressions.
+We want an accuracy of at least 0.1K, but the function is around zero for a long time (I plotted it to see) 
+so we want a high accuracy.
+Secant diverges, so I use Newton-Rhapson with $10^{3.5}$ as initial guess. It took 3 steps to find a temperature 
+with a function value of ~$10^{-19}$. I measured the time it took to find the root and output it together with
+the found T. The output is of the form [T (in K), time taken (in sec)]:
+\lstinputlisting{NUR2Q2TandttNR.txt}
+
+To make sure I was actually near a root and not just in a sea of small function values, I plotted the 
+equilibrium function, a horizontal line at 0, and the T value found by my NR root-finder. I set the 
+x-limits to 0.1K around the T value found by my root-finder to make sure I was close enough.
+The result you can see in Fig. \ref{fig:fig1}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{NUR2Q2plot1.pdf}
+  \caption{Plot corresponding to exercise 2a, showing the equilibrium function, the root found by NR, and
+  a horizontal line at 0.}
+  \label{fig:fig1}
+\end{figure} 

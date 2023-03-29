@@ -1,0 +1,85 @@
+section{Satellite galaxies around a massive central}
+
+For this exercise, I use functions for trapezoid integration, Romberg integration, a combination of 
+LCG and 64bit XOR random number generator, Quicksort, and Ridder differentiation I made during tutorials in 
+which I worked together with Liz van der Kamp (s2135752).
+
+
+The code I wrote is:
+\lstinputlisting{NUR_handin2Q1.py}
+
+\subsection{a}
+
+For a) we have that x = $r/r_vir$, so integrating over spherical coordinates gives dx = $dr/r_vir$, 
+and n(x) doesnt depend on theta or phi so the 3D integral is simply $4\pi$ times the integral over 
+r^2*dr (or $r_vir^3*x^2*dx$)
+To solve for A we can rewrite the integral to get $(4\pi/(A*N_sat))*\int n(x)*x^2 dx = 1/(A*r_vir^3)$
+Because Romberg integration gives the most accurate result, I used Romberg integration with 50 steps 
+(so a step size of 5/50) and an order of 6 to get 1/A (taking the $r_vir$ into the constant A),
+I then inverted the output of the integration to get A:
+\lstinputlisting{NUR2Q1Asol.txt}
+
+\subsection{b}
+
+For b) we have that N(x)dx is $4\pi*n(x)*x^2 dx$, because integrating that divided by Nsat gives 1, 
+so integrating p(x)dx = N(x)dx/Nsat also gives 1, which is what we want for a probability distribution.
+To sample this distribution, I use rejection sampling for 10000 x values between 0 and 5,
+where I use a combination between 64bit XOR and LCG RNG to generate a random x and y and accept or reject
+based on whether $y \leq p(x)$. For every iteration I use a different seed in the RNG to make sure that I 
+don't constantly get the same answer for x and y, and because I want to generate a number between 0 and 1 
+and I divide by the maximum of the generated numbers in the RNG, I cannot request just 1 number 
+(then it will always be 1), so I generate 50 and take the first and second number for x and y.
+
+The plot this produces can be seen in Fig \ref{fig:fig1}. The bins below ~$5*10^{-3}$ are empty because there 
+the probability reaches ~$10^{-4}$ so with 10000 points you expect at most 1 count there. 
+I used density=True in the plt.hist function because that does the normalization by dividing the bins by 
+their width and the total number of counts.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{NUR2Q1plot1.pdf}
+  \caption{Plot corresponding to exercise 1b, showing a log-log plot of p(x) and the histogram of 10000 
+  sampled values in 20 logarithmically-spaced bins between x = $10^{-4}$ and x = 5.}
+  \label{fig:fig1}
+\end{figure} 
+
+
+\subsection{c}
+
+For c) to select 100 random satellites, I want to randomly shuffle the sample array I produced in b) and then for 
+example take the first 100 galaxies from the shuffled array. This ensures to select every galaxy with equal
+probability, not drawing the same twice, and not rejecting any draw. 
+To do this, I generate an array of the same length as my sample (10000) filled with random numbers (so using my RNG)
+then, I sort the random array with my Quicksort algorithm, and get back the indices that were switched to sort it.
+With that array of indices, I shuffle the sample, and I take the first 100 galaxies as my random sample.
+
+Then, I sort that random sample with my Quicksort algorithm in order to plot the number of galaxies within a radius.
+The sorted array allows me to easily see how many galaxies are within that radius. 
+Namely, the first element is the smallest radius within which there is 1 galaxy, the second element gives the radius 
+within which there are 2 galaxies, and so on. 
+So, we get an x array from x = $10^{-4}$ to x = 5, which is simply the random sample with 
+x = $10^{-4}$ and x = 5 inserted at the beginning and end, and a counts array which has 0 (at x = $10^{-4}$) 
+until 100 with another 100 appended at the end (for x = 5). 
+The resulting plot can be seen in Fig. \ref{fig:fig2}.
+
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\linewidth]{NUR2Q1plot2.pdf}
+  \caption{Plot corresponding to exercise 1c, showing a xlog between x = $10^{-4}$ and x = 5 showing the 
+number of galaxies within a certain radius.}
+  \label{fig:fig2}
+\end{figure} 
+
+
+\subsection{d}
+
+For d) I use Ridder differentiation because that yields the most accurate result. I used a stepsize of 0.1
+and order 2 to get the differential at x=1 up to an accuracy below $10^{-10}$. To see if that accuracy has been
+reached, I compare to the analytical derivative of n(x), which is 
+$Nsat* A*((x)^{a-4}/(b)^{a-3})*exp(-(x/b)^c)*(a-3-c*(x/b)^c)$.
+I reach an accuracy of 8*$10^{-15}$ within 4 steps for the Ridder differentiation.
+The analytical derivative and the calculated derivative with Ridder are outputted as:
+\lstinputlisting{NUR2Q1derivs.txt}
+
+

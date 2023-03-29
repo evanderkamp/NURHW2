@@ -1,4 +1,4 @@
-section{Satellite galaxies around a massive central}
+\section{Satellite galaxies around a massive central}
 
 For this exercise, I use functions for trapezoid integration, Romberg integration, a combination of 
 LCG and 64bit XOR random number generator, Quicksort, and Ridder differentiation I made during tutorials in 
@@ -8,7 +8,7 @@ which I worked together with Liz van der Kamp (s2135752).
 The code I wrote is:
 \lstinputlisting{NUR_handin2Q1.py}
 
-\subsection{a}
+\subsection*{a}
 
 For a) we have that x = $r/r_vir$, so integrating over spherical coordinates gives dx = $dr/r_vir$, 
 and n(x) doesnt depend on theta or phi so the 3D integral is simply $4\pi$ times the integral over 
@@ -19,7 +19,7 @@ Because Romberg integration gives the most accurate result, I used Romberg integ
 I then inverted the output of the integration to get A:
 \lstinputlisting{NUR2Q1Asol.txt}
 
-\subsection{b}
+\subsection*{b}
 
 For b) we have that N(x)dx is $4\pi*n(x)*x^2 dx$, because integrating that divided by Nsat gives 1, 
 so integrating p(x)dx = N(x)dx/Nsat also gives 1, which is what we want for a probability distribution.
@@ -30,7 +30,7 @@ don\'t constantly get the same answer for x and y, and because I want to generat
 and I divide by the maximum of the generated numbers in the RNG, I cannot request just 1 number 
 (then it will always be 1), so I generate 50 and take the first and second number for x and y.
 
-The plot this produces can be seen in Fig \ref{fig:fig1}. The bins below ~$5*10^{-3}$ are empty because there 
+The plot this produces can be seen in Fig \ref{fig:fig11}. The bins below ~$5*10^{-3}$ are empty because there 
 the probability reaches ~$10^{-4}$ so with 10000 points you expect at most 1 count there. 
 I used density=True in the plt.hist function because that does the normalization by dividing the bins by 
 their width and the total number of counts.
@@ -40,11 +40,11 @@ their width and the total number of counts.
   \includegraphics[width=0.9\linewidth]{NUR2Q1plot1.pdf}
   \caption{Plot corresponding to exercise 1b, showing a log-log plot of p(x) and the histogram of 10000 
   sampled values in 20 logarithmically-spaced bins between x = $10^{-4}$ and x = 5.}
-  \label{fig:fig1}
+  \label{fig:fig11}
 \end{figure} 
 
 
-\subsection{c}
+\subsection*{c}
 
 For c) to select 100 random satellites, I want to randomly shuffle the sample array I produced in b) and then for 
 example take the first 100 galaxies from the shuffled array. This ensures to select every galaxy with equal
@@ -60,7 +60,7 @@ within which there are 2 galaxies, and so on.
 So, we get an x array from x = $10^{-4}$ to x = 5, which is simply the random sample with 
 x = $10^{-4}$ and x = 5 inserted at the beginning and end, and a counts array which has 0 (at x = $10^{-4}$) 
 until 100 with another 100 appended at the end (for x = 5). 
-The resulting plot can be seen in Fig. \ref{fig:fig2}.
+The resulting plot can be seen in Fig. \ref{fig:fig12}.
 
 
 \begin{figure}[h!]
@@ -68,7 +68,7 @@ The resulting plot can be seen in Fig. \ref{fig:fig2}.
   \includegraphics[width=0.9\linewidth]{NUR2Q1plot2.pdf}
   \caption{Plot corresponding to exercise 1c, showing a xlog between x = $10^{-4}$ and x = 5 showing the 
 number of galaxies within a certain radius.}
-  \label{fig:fig2}
+  \label{fig:fig12}
 \end{figure} 
 
 

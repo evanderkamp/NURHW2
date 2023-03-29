@@ -4,8 +4,10 @@ import matplotlib.pyplot as plt
 #simple trapezoid integration
 def trapezoid(N, x0, xmax, func):
 	"""Trapezoid integration with N steps, integrating func from x0 to xmax"""
+	#step size is range divided by number of steps
 	h = (xmax-x0)/N
 	xes = np.linspace(x0,xmax,N)
+	#trapezoid integration formula
 	integr = h*(func(xes[0])*0.5 + np.sum(func(xes[1:N-1])) + func(xes[N-1])*0.5)
 
 	return integr
@@ -13,11 +15,16 @@ def trapezoid(N, x0, xmax, func):
 #Romberg integration
 def Romberg(N, m, x0, xmax, func):
 	"""Romberg integration with N steps, an order of m, integrating func from x0 to xmax"""
+	#step size is range divided by number of steps
 	h = (xmax-x0)/N
+	#r has the size of the order
 	r = np.zeros(m)
+	#first estimate is simply the trapezoid integration
 	r[0] = trapezoid(N, x0, xmax, func)
+	
 	Np = N
 	for i in range(1,m):
+		#iteratively improve the integration estimate
 		r[i] = 0
 		diff = h
 		h *= 0.5
@@ -39,11 +46,12 @@ def Romberg(N, m, x0, xmax, func):
 
 	Np = 1
 	for i in range(1,m):
+		#combine all estimates into one
 		Np *= 4
 
 		for j in range(0,m-i):
 			r[j] = (Np*r[j+1] - r[j])/(Np-1)
-		    
+	#return final Romberg integration value	    
 	return r[0]
 
 
@@ -83,11 +91,13 @@ def N(x,A=A_intgr,a=2.4,b=0.25,c=1.6):
 
 def LCG64(I0,size, a=1664525, m=2**32, c=1013904223, a1=21, a2=25, a3=4):
     """Random number generator using 64-bit XOR and LCG, gives back an array of random numbers between 0 and 1 of size size with I0 as seed."""
+    #do 64-bit XOR first with the seed I0
     rndnrs = np.zeros(size,dtype=int)
     xors = np.zeros(size+1,dtype=int)
     xors[0] = int(I0)
     
     for i in range(1,size+1):
+	#generate all 64-bit XOR numbers
         x0 = xors[i-1]
         x1 = x0 ^ (x0 >> a1)
         x2 = x1 ^ (x1 << a2)
@@ -96,7 +106,7 @@ def LCG64(I0,size, a=1664525, m=2**32, c=1013904223, a1=21, a2=25, a3=4):
         xors[i] = x3
         
     for k in range(0,size):
-    
+    	#the first xors number is still the seed, so do RCG with xors[1:] so we dont use the seed anymore
         rndnrs[k] = (a*xors[k+1] + c)%m
         
         #return between 0 and 1
@@ -170,6 +180,7 @@ def Quicksort_part(arr, ind_first, ind_last, indsave, indices):
     	#pivot in the middle
 	x_piv = a[middle]
 
+	#i and j are for arr, i_2 and j_2 are for a
 	i = ind_first
 	j = ind_last
 	i_2 = 0
@@ -188,6 +199,7 @@ def Quicksort_part(arr, ind_first, ind_last, indsave, indices):
 		else:
 			j -= 1
 			j_2 -= 1
+ 		#swap everything (the indices too if indsave is True
 		if arr[i] >= x_piv and arr[j] <= x_piv:
 			arr = rowswapvec(arr,i,j)
 			a = rowswapvec(a,i_2,j_2)
@@ -201,7 +213,7 @@ def Quicksort_part(arr, ind_first, ind_last, indsave, indices):
 
 	indxes = np.arange(0,Ntot,1, dtype=int)
 	indxes2 = np.arange(0,N,1, dtype=int)
-	#get the indices of the pivot in both arr and a
+	#get the indices of the new pivot place in both arr and a
 	indx_piv = (indxes[arr == x_piv])[0]
 	indx_piv2 = (indxes2[a == x_piv])[0]
 	in_first = (indxes[arr == first])[0]
@@ -294,12 +306,14 @@ def centr_diff(func, x, h):
     return (func(x+h) - func(x-h))/(2*h)
 
 def Ridder(func, x, h, d, accur, analder, m=100):
-    """calculates the derivative of func at x with stepsize h, order d, up until accuracy accur"""
+    """calculates the derivative of func at x with stepsize h, order d, up until accuracy accur. The accuracy is calculated with the analytic derivative."""
+    #get the Ridder estimates, the first is simply with central difference method
     r = np.zeros((m, len(x)))
     r[0,:] = centr_diff(func,x,h)
     d_inv = 1/d
     
     for i in range(1,m):
+	#get the other first estimates
         h *= d_inv
         r[i,:] = centr_diff(func,x,h)
         
@@ -307,17 +321,22 @@ def Ridder(func, x, h, d, accur, analder, m=100):
     
     Np = 1
     for i in range(1,m):
+	#just as with Romberg, now we iterate to improve the solution
         Np *= d**2
         
+	#before improving the solution, save r_0 and the accuracy in case the accuracy drops
         accurprev = np.mean(np.abs(r[0,:] - analder(x)))
+	r_0prev = r[0,:].copy()
         
         for j in range(0,m-i):
             r[j,:] = (Np*r[j+1,:] - r[j,:])/(Np-1)
-            
+        
+	    
         accurnow = np.mean(np.abs(r[0,:] - analder(x)))
+	#if the error grew, give the previous estimate, if not, give the latest estimate
         if accurnow > accurprev:
             print("error grew", accurprev, accurnow)
-            return r[0,:]
+            return r_0prev
         if accurnow < accur:
             print("Number of steps taken, error:", i, np.mean(np.abs(r[0,:] - analder(x))))
             return r[0,:]

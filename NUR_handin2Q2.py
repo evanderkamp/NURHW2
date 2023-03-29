@@ -19,11 +19,11 @@ def NR(func, deriv, c, max_iter, accur):
 	"""Uses the Newton-Rhapson method to find the root of func, using the initial guess c and the derivative deriv. It iterates either max_iter times or until f(c) < accur."""
 	for i in range(0, max_iter):       
         
-        
+        	#estimate the x position of the root
 		c = c - func(c)/deriv(c)
         
 		print("Step ", i+1, "f(c) =", func(c))
-        
+        	#return if accuracy reached
 		if np.abs(func(c)) < accur:
 			return c
         
@@ -78,17 +78,19 @@ def equilder2(T, Z=0.015,Tc=10**4,psi=0.929,  A=5*10**(-10), xi=10**(-15)):
 def Bisection(func, a, b, max_iter, accur):
     """Finds the root of func with bisection between a and b, doing either max_iter steps or until f(c) < accur"""
     if func(a) * func(b) > 0:
+	#we cannot find a root with bisection this way
         print("invalid!")
         return 0
-    
+    #take c in between a and b
     c = (a+b)*0.5 
     
     for i in range(0, max_iter):
         print("step", i, "accur =", func(c))
-        
+        #check if accuracy is reached
         if np.abs(func(c)) < accur:
             return c
-    
+
+    	#see whether b and c, or c and a properly bracket the root
         if func(c) * func(b) < 0:
             a = c
         elif func(c) * func(a) < 0:
@@ -96,7 +98,7 @@ def Bisection(func, a, b, max_iter, accur):
         else:
             print("can't find root")
             return 0 
-        
+        #take a new estimate for c with the new bracket
         c = (a+b)*0.5 
         
     return c
@@ -105,17 +107,18 @@ def Bisection(func, a, b, max_iter, accur):
 def Secant(func, a, b, max_iter, accur):
     """Finds the root of func with secant between a and b, doing either max_iter steps or until f(c) < accur"""
     if func(a) * func(b) > 0:
+	#we cannot find a root this way
         print("invalid!")
         return 0
     
 
     for i in range(0, max_iter):
-        
+        #estimate root position
         c = b + func(b)*(b-a)/(func(a) - func(b))
         a,b = b,c
         
         print("Step", i+1, "accur =", func(c))
-        
+        #check if accuracy is reached
         if np.abs(func(c)) < accur:
             return c
         

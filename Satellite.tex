@@ -26,7 +26,7 @@ so integrating p(x)dx = N(x)dx/Nsat also gives 1, which is what we want for a pr
 To sample this distribution, I use rejection sampling for 10000 x values between 0 and 5,
 where I use a combination between 64bit XOR and LCG RNG to generate a random x and y and accept or reject
 based on whether $y \leq p(x)$. For every iteration I use a different seed in the RNG to make sure that I 
-don't constantly get the same answer for x and y, and because I want to generate a number between 0 and 1 
+don\'t constantly get the same answer for x and y, and because I want to generate a number between 0 and 1 
 and I divide by the maximum of the generated numbers in the RNG, I cannot request just 1 number 
 (then it will always be 1), so I generate 50 and take the first and second number for x and y.
 

@@ -14,7 +14,7 @@ For a) we have that x = $r/r_{vir}$, so integrating over spherical coordinates g
 and n(x) doesnt depend on theta or phi so the 3D integral is simply $4\pi$ times the integral over 
 $r^2$*dr (or $r_{vir}^3*x^2*dx$)
 To solve for A we can rewrite the integral to get $(4\pi/(A*N_{sat}))*\int n(x)*x^2 dx = 1/(A*r_{vir}^3)$
-Because Romberg integration gives the most accurate result, I used Romberg integration with 50 steps 
+Because Romberg integration gives the most accurate result since it iterates over different estimates with different step sizes and combines them to improve the final estimate. I used Romberg integration with 50 steps 
 (so a step size of 5/50) and an order of 6 to get 1/A (taking the $r_vir$ into the constant A),
 I then inverted the output of the integration to get A:
 \lstinputlisting{NUR2Q1Asol.txt}
@@ -74,7 +74,8 @@ number of galaxies within a certain radius.}
 
 \subsection*{d}
 
-For d) I use Ridder differentiation because that yields the most accurate result. I used a stepsize of 0.1
+For d) I use Ridder differentiation because that yields the most accurate result since it, just like Romberg integration, combines different estimates of the differential to yield a better final estimate of the differential.
+I used a stepsize of 0.1
 and order 2 to get the differential at x=1 up to an accuracy below $10^{-10}$. To see if that accuracy has been
 reached, I compare to the analytical derivative of n(x), which is 
 $Nsat* A*((x)^{a-4}/(b)^{a-3})*exp(-(x/b)^c)*(a-3-c*(x/b)^c)$.

@@ -33,7 +33,7 @@ The result you can see in Fig. \ref{fig:fig1}.
 
 \subsection*{b}
 
-Here, the equilibrium function is $\Gamma_{pe} \Gamma_{CR} + \Gamma_{MHD} - \Lambda_{FF} - \Lambda_{rr}$, and we have that $n_H = n_e$ so we can divide out one. 
+Here, the equilibrium function is $\Gamma_{pe} + \Gamma_{CR} + \Gamma_{MHD} - \Lambda_{FF} - \Lambda_{rr}$, and we have that $n_H = n_e$ so we can divide out one. 
 For the different values of $n_H$ I first look at the equilibrium functions by plotting them and inspecting where the root approximately is. 
 
 For $n_H = 10^{-4}$ the equilibrium function is very steep before it crosses the y = 0 line, and NR diverges, so I use a safe Bisection method between T = [1,$10^{15}$] to find the root to an accuracy of $10^{-17}$. It takes 7 steps to find a T with function value of $10^{-18}$.

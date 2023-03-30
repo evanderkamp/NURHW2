@@ -24,7 +24,7 @@ def Romberg(N, m, x0, xmax, func):
 	
 	Np = N
 	for i in range(1,m):
-		#iteratively improve the integration estimate
+		#get different estimates with different step sizes
 		r[i] = 0
 		diff = h
 		h *= 0.5
@@ -46,7 +46,7 @@ def Romberg(N, m, x0, xmax, func):
 
 	Np = 1
 	for i in range(1,m):
-		#combine all estimates into one
+		#iteratively combine the initial estimates to improve the result
 		Np *= 4
 
 		for j in range(0,m-i):
@@ -321,7 +321,7 @@ def Ridder(func, x, h, d, accur, analder, m=100):
     
     Np = 1
     for i in range(1,m):
-	#just as with Romberg, now we iterate to improve the solution
+	#just as with Romberg, now we iterate over different step sizes to get different estimates
         Np *= d**2
         
 	#before improving the solution, save r_0 and the accuracy in case the accuracy drops
@@ -329,6 +329,7 @@ def Ridder(func, x, h, d, accur, analder, m=100):
         r_0prev = r[0,:].copy()
         
         for j in range(0,m-i):
+	#combine the different estimates to try to improve the result
             r[j,:] = (Np*r[j+1,:] - r[j,:])/(Np-1)
         
 	    
